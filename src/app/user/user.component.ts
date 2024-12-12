@@ -1,7 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
-import { DUMMY_USERS } from '../dummy-users';
-
-const randomNumber = Math.floor(Math.random() * DUMMY_USERS.length);
+import { Component, computed, input, Input } from '@angular/core';
 
 @Component({
   selector: 'app-user',
@@ -11,18 +8,17 @@ const randomNumber = Math.floor(Math.random() * DUMMY_USERS.length);
   styleUrl: './user.component.css',
 })
 export class UserComponent {
-  selectedUser = signal(DUMMY_USERS[randomNumber]);
+  @Input({required: true}) avatar!: string;
+  @Input({required: true}) name!: string;
 
-  // get imagePath() {
-  //   return 'assets/users/' + this.selectedUser().avatar;
-  // }
-
-  // when using signals then we can use the computed method of @angular/core to compute any value.
-
-  imagePath = computed(() => 'assets/users/' + this.selectedUser().avatar)
-
-  onSelectUser() {
-    const randomNumber = Math.floor(Math.random() * DUMMY_USERS.length);
-    this.selectedUser.set(DUMMY_USERS[randomNumber]);
+  get imagePath() {
+    return 'assets/users/' + this.avatar;
   }
+
+  // avatar = input.required<string>();
+  // name = input.required<string>();
+
+  // imagePath = computed(() => 'assets/users/' + this.avatar());
+
+  onSelectUser() {}
 }
