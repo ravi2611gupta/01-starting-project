@@ -1,5 +1,6 @@
 @if(isAddingTask){
-<app-new-task (cancel)="handleCancel()" (add)="handleSubmitAdd($event)" />
+<!-- <app-new-task (cancel)="handleCancel()" (add)="handleSubmitAdd($event)" /> -->
+<app-new-task (close)="handleClose()" [userId]="userId" />
 }
 
 <section id="tasks">
@@ -14,7 +15,8 @@
   <ul>
     @for (task of selectedUserTasks; track task.id){
     <li>
-      <app-task [task]="task" (complete)="handleComplete($event)" />
+      <!-- <app-task [task]="task" (complete)="handleComplete($event)" /> -->
+      <app-task [task]="task" />
     </li>
     }
   </ul>

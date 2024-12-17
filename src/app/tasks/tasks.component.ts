@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { TaskComponent } from './task/task.component';
 import { NewTaskComponent } from './new-task/new-task.component';
 import { type NewTask } from './task/task.model';
+import { TasksService } from './tasks.service';
 
 @Component({
   selector: 'app-tasks',
@@ -14,58 +15,28 @@ export class TasksComponent {
   @Input({ required: true }) name!: string;
   @Input({ required: true }) userId!: string;
   isAddingTask = false;
+  // // private taskService = new TasksService();\
+  // private taskService: TasksService;
 
-  tasks = [
-    {
-      id: 't1',
-      userId: 'u1',
-      title: 'Master Angular',
-      summary:
-        'Learn all the basic and advanced features of Angular & how to apply them.',
-      dueDate: '2025-12-31',
-    },
-    {
-      id: 't2',
-      userId: 'u3',
-      title: 'Build first prototype',
-      summary: 'Build a first prototype of the online shop website',
-      dueDate: '2024-05-31',
-    },
-    {
-      id: 't3',
-      userId: 'u3',
-      title: 'Prepare issue template',
-      summary:
-        'Prepare and describe an issue template which will help with project management',
-      dueDate: '2024-06-15',
-    },
-  ];
+  // // Dependency Injection
+  // constructor(taskService: TasksService) {
+  //   this.taskService = taskService
+  // }
+
+  // this is the short-cut that's offered by TypeScript adding the keywords like (private / public) in front of the parameter automatically makes the property of this class.
+  // ! Private: The property is only accessible from inside this class.
+  // ! Public: The property is also accessible from outside this class (e.g., from inside the template). 
+  constructor(private taskService: TasksService){}
 
   get selectedUserTasks() {
-    return this.tasks.filter((task) => task.userId === this.userId);
-  }
-
-  handleComplete(id: string) {
-    this.tasks = this.tasks.filter((task) => task.id !== id);
+     return this.taskService.getUserTasks(this.userId)
   }
 
   onAddTaskClick(){
     this.isAddingTask = true
   }
 
-  handleCancel(){
+  handleClose(){
     this.isAddingTask = false
-  }
-
-  handleSubmitAdd(taskData: NewTask){
-    this.tasks.unshift({
-      id: new Date().getTime().toString(),
-      userId: this.userId,
-      title: taskData.title,
-      summary: taskData.summary,
-      dueDate: taskData.date,
-    })
-
-    this.isAddingTask = false;
   }
 }
